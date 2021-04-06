@@ -6,7 +6,14 @@ pipeline {
 
   }
   stages {
-    stage('Say hello') {
+    stage('clone down') {
+      agent {
+        label 'swarm'
+        }
+      stash excludes: '.git', name: 'code'
+    }
+
+    stage('say hello') {
       parallel {
         stage('say hello') {
           steps {
@@ -19,6 +26,7 @@ pipeline {
             sh 'ci/build-app.sh'
             archiveArtifacts 'app/build/libs/'
             deleteDir()
+            skipDefaultCheckout(true)
           }
         }
 
