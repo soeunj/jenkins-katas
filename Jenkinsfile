@@ -2,8 +2,19 @@ pipeline {
   agent any
   stages {
     stage('Say hello') {
-      steps {
-        sh 'echo "hello world"'
+      parallel {
+        stage('say hello') {
+          steps {
+            sh 'echo "hello world"'
+          }
+        }
+
+        stage('build app') {
+          steps {
+            sh 'ci/build-app.sh'
+          }
+        }
+
       }
     }
 
