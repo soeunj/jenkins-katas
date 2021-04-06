@@ -24,7 +24,7 @@ pipeline {
 
         stage('build app') {
           agent {
-            image 'gradle:jdk11'
+            docker { image 'gradle:jdk11' }
           }
           options {
             skipDefaultCheckout true
@@ -39,7 +39,7 @@ pipeline {
 
         stage('test app') {
           agent {
-            image 'gradle:jdk11'
+            docker { image 'gradle:jdk11' }
           }
           steps {
             unstash 'code'
