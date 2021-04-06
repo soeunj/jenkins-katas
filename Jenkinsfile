@@ -29,8 +29,9 @@ pipeline {
             }
           steps {
             sh 'ci/build-app.sh'
-            stash name: 'code'
             archiveArtifacts 'app/build/libs/'
+            unstash 'code'
+            stash name: 'code'
           }
         }
 
