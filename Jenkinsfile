@@ -28,9 +28,9 @@ pipeline {
             skipDefaultCheckout true
             }
           steps {
+            unstash 'code'
             sh 'ci/build-app.sh'
             archiveArtifacts 'app/build/libs/'
-            unstash 'code'
             stash name: 'code'
           }
         }
