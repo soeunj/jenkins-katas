@@ -1,10 +1,5 @@
 pipeline {
-  agent {
-    docker {
-      image 'gradle:jdk11'
-    }
-
-  }
+  agent any
   stages {
     stage('clone down') {
       agent {
@@ -16,6 +11,10 @@ pipeline {
     }
 
     stage('say hello') {
+      agent {
+        docker {
+          image 'gradle:jdk11'
+      }
       parallel {
         stage('say hello') {
           steps {
@@ -45,7 +44,7 @@ pipeline {
       }
     }
 
-    stage('push docker app') {
+   stage('push docker app') {
       environment {
         DOCKERCREDS = credentials('docker_login') //use the credentials just created in this stage
       }
