@@ -1,8 +1,7 @@
 pipeline {
-  agent {
-    docker {
-      image 'gradle:jdk11'
-    }
+  agent any
+  environment {
+    docker_username='soeunj'
   }
   stages {
     stage('clone down') {
