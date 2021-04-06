@@ -38,13 +38,14 @@ pipeline {
             deleteDir()
           }
         }
-
+        
         stage('test app') {
           options { skipDefaultCheckout() }
           agent {
-            docker { 
+            docker {
               image 'gradle:jdk11'
-              }
+            }
+
           }
           steps {
             unstash 'code'
