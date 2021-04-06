@@ -40,6 +40,7 @@ pipeline {
         }
 
         stage('test app') {
+          options { skipDefaultCheckout() }
           agent {
             docker { 
               image 'gradle:jdk11'
