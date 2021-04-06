@@ -23,23 +23,28 @@ pipeline {
         }
 
         stage('build app') {
+          options { skipDefaultCheckout() }
           agent {
-            docker { image 'gradle:jdk11' }
-          }
-          options {
-            skipDefaultCheckout true
+            docker {
+              image 'gradle:jdk11'
             }
+
+          }
           steps {
             unstash 'code'
             sh 'ci/build-app.sh'
-            stash name: 'code'
+            stash 'code'
             archiveArtifacts 'app/build/libs/'
+            sh 'ls'
+            deleteDir()
           }
         }
 
         stage('test app') {
           agent {
-            docker { image 'gradle:jdk11' }
+            docker { 
+              image 'gradle:jdk11'
+              }
           }
           steps {
             unstash 'code'
