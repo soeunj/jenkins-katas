@@ -35,17 +35,19 @@ pipeline {
         }
 
         stage('test app') {
-          options {
-            skipDefaultCheckout true
-            }
           steps {
             sh 'ci/unit-test-app.sh'
             junit 'app/build/test-results/test/TEST-*.xml'
-            archiveArtifacts 'app/build/libs/'
+            unstash 'code'
           }
         }
       }
     }
 
+  }
+  post {
+    cleanup {
+        deleteDir() /* clean up our workspace */
+    }
   }
 }
