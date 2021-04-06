@@ -11,10 +11,6 @@ pipeline {
     }
 
     stage('say hello') {
-      agent {
-        docker {
-          image 'gradle:jdk11'
-      }
       parallel {
         stage('say hello') {
           steps {
@@ -23,18 +19,26 @@ pipeline {
         }
 
         stage('build app') {
+          agent {
+            docker {
+              image 'gradle:jdk11'
+          }
           options {
             skipDefaultCheckout true
             }
           steps {
             unstash 'code'
             sh 'ci/build-app.sh'
-            archiveArtifacts 'app/build/libs/'
             stash name: 'code'
+            archiveArtifacts 'app/build/libs/'
           }
         }
 
         stage('test app') {
+          agent {
+            docker {
+              image 'gradle:jdk11'
+          }
           steps {
             unstash 'code'
             sh 'ci/unit-test-app.sh'
