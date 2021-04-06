@@ -10,7 +10,9 @@ pipeline {
       agent {
         label 'swarm'
         }
-      stash excludes: '.git', name: 'code'
+      steps {
+        stash excludes: '.git', name: 'code'
+      }
     }
 
     stage('say hello') {
@@ -22,11 +24,13 @@ pipeline {
         }
 
         stage('build app') {
+          options {
+            skipDefaultCheckout true
+            }
           steps {
             sh 'ci/build-app.sh'
             archiveArtifacts 'app/build/libs/'
-            deleteDir()
-            skipDefaultCheckout(true)
+            unstash 'code'
           }
         }
 
