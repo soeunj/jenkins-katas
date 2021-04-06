@@ -1,5 +1,9 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'gradle:jdk11'
+    }
+  }
   stages {
     stage('clone down') {
       agent {
@@ -20,8 +24,7 @@ pipeline {
 
         stage('build app') {
           agent {
-            docker {
-              image 'gradle:jdk11'
+            image 'gradle:jdk11'
           }
           options {
             skipDefaultCheckout true
@@ -36,8 +39,7 @@ pipeline {
 
         stage('test app') {
           agent {
-            docker {
-              image 'gradle:jdk11'
+            image 'gradle:jdk11'
           }
           steps {
             unstash 'code'
@@ -48,7 +50,7 @@ pipeline {
       }
     }
 
-   stage('push docker') {
+   stage('push docker app') {
       environment {
         DOCKERCREDS = credentials('docker_login') //use the credentials just created in this stage
       }
