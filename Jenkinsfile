@@ -48,7 +48,7 @@ pipeline {
       }
     }
 
-   stage('push docker app') {
+   stage('push docker') {
       environment {
         DOCKERCREDS = credentials('docker_login') //use the credentials just created in this stage
       }
